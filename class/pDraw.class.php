@@ -102,6 +102,16 @@
 
  class pDraw
   {
+
+   /* Font properties */
+   var $FontName  = "fonts/GeosansLight.ttf"; // Default font file
+   var $FontSize  = 12;       // Default font size
+   var $FontBox   = NULL;       // Return the bounding box of the last written string
+   var $FontColorR  = 0;        // Default color settings
+   var $FontColorG  = 0;        // Default color settings
+   var $FontColorB  = 0;        // Default color settings
+   var $FontColorA  = 100;        // Default transparency
+
    /* Returns the number of drawable series */
    function countDrawableSeries()
     {
@@ -1801,6 +1811,8 @@
      $SkippedTickAlpha	= isset($Format["SkippedTickAlpha"]) ? $Format["SkippedTickAlpha"] : $TickAlpha-80;
      $SkippedInnerTickWidth	= isset($Format["SkippedInnerTickWidth"]) ? $Format["SkippedInnerTickWidth"] : 0;
      $SkippedOuterTickWidth	= isset($Format["SkippedOuterTickWidth"]) ? $Format["SkippedOuterTickWidth"] : 2;
+     $AxisYFont = isset($Format['AxisYFont']) ? $Format['AxisYFont'] : false;
+     $AxisYDistance = isset($Format['AxisYDistance']) ? $Format['AxisYDistance'] : 2;
 
      /* Floating scale require X & Y margins to be set manually */
      if ( $Floating && ( $XMargin == AUTO || $YMargin == 0 ) ) { $Floating = FALSE; }
@@ -2328,9 +2340,16 @@
 
              if ( isset($Parameters["Name"]) )
               {
-               $XPos    = $MinLeft-2;
+               $XPos    = $MinLeft-$AxisYDistance;
                $YPos    = $this->GraphAreaY1+($this->GraphAreaY2-$this->GraphAreaY1)/2;
+               if (!empty($AxisYFont)) {
+                $currentFont = $this->getFontProperties();
+                $this->setFontProperties($AxisYFont);
+               }
                $Bounds  = $this->drawText($XPos,$YPos,$Parameters["Name"],array("Align"=>TEXT_ALIGN_BOTTOMMIDDLE,"Angle"=>90));
+               if (!empty($AxisYFont)) {
+                $this->setFontProperties($currentFont);
+               }
                $MinLeft = $Bounds[2]["X"];
 
                $this->DataSet->Data["GraphArea"]["X1"] = $MinLeft;
@@ -2376,6 +2395,8 @@
               {
                $XPos    = $MaxLeft+6;
                $YPos    = $this->GraphAreaY1+($this->GraphAreaY2-$this->GraphAreaY1)/2;
+
+
                $Bounds  = $this->drawText($XPos,$YPos,$Parameters["Name"],array("Align"=>TEXT_ALIGN_BOTTOMMIDDLE,"Angle"=>270));
                $MaxLeft = $Bounds[2]["X"];
 
@@ -3067,6 +3088,39 @@
        $this->Shadow = $RestoreShadow;
        return(array("Y1"=>$XPos1,"Y2"=>$XPos2));
       }
+    }
+
+   /* Set current font properties */
+   function setFontProperties($Format="")
+    {
+     $R   = isset($Format["R"]) ? $Format["R"] : -1;
+     $G   = isset($Format["G"]) ? $Format["G"] : -1;
+     $B   = isset($Format["B"]) ? $Format["B"] : -1;
+     $Alpha = isset($Format["Alpha"]) ? $Format["Alpha"] : 100;
+     $FontName  = isset($Format["FontName"]) ? $Format["FontName"] : NULL;
+     $FontSize  = isset($Format["FontSize"]) ? $Format["FontSize"] : NULL;
+
+     if ( $R != -1)       {  $this->FontColorR = $R; }
+     if ( $G != -1)       {  $this->FontColorG = $G; }
+     if ( $B != -1)       {  $this->FontColorB = $B; }
+     if ( $Alpha != NULL) {  $this->FontColorA = $Alpha; }
+
+     if ( $FontName != NULL  )
+      $this->FontName = $FontName;
+ 
+     if ( $FontSize != NULL  )
+      $this->FontSize = $FontSize;
+    }
+
+    function getFontProperties() {
+      return array(
+        'R' => $this->FontColorR,
+        'G' => $this->FontColorG,
+        'B' => $this->FontColorB,
+        'Alpha' => $this->FontColorA,
+        'FontName' => $this->FontName,
+        'FontSize' => $this->FontSize
+      );      
     }
 
    function scaleGetXSettings()

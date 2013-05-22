@@ -51,15 +51,6 @@
    /* Scale settings */
    var $ScaleMinDivHeight = 20;				// Minimum height for scame divs
 
-   /* Font properties */
-   var $FontName	= "fonts/GeosansLight.ttf";	// Default font file
-   var $FontSize	= 12;				// Default font size
-   var $FontBox		= NULL;				// Return the bounding box of the last written string
-   var $FontColorR	= 0;				// Default color settings
-   var $FontColorG	= 0;				// Default color settings
-   var $FontColorB	= 0;				// Default color settings
-   var $FontColorA	= 100;				// Default transparency
-
    /* Shadow properties */
    var $Shadow		= FALSE;			// Turn shadows on or off
    var $ShadowX		= NULL;				// X Offset of the shadow
@@ -228,28 +219,6 @@
      $RealPos[TEXT_ALIGN_MIDDLEMIDDLE]["X"]	= ($RealPos[1]["X"]-$RealPos[3]["X"])/2+$RealPos[3]["X"];	$RealPos[TEXT_ALIGN_MIDDLEMIDDLE]["Y"]	= ($RealPos[0]["Y"]-$RealPos[2]["Y"])/2+$RealPos[2]["Y"];
 
      return($RealPos);
-    }
-
-   /* Set current font properties */
-   function setFontProperties($Format="")
-    {
-     $R		= isset($Format["R"]) ? $Format["R"] : -1;
-     $G		= isset($Format["G"]) ? $Format["G"] : -1;
-     $B		= isset($Format["B"]) ? $Format["B"] : -1;
-     $Alpha	= isset($Format["Alpha"]) ? $Format["Alpha"] : 100;
-     $FontName	= isset($Format["FontName"]) ? $Format["FontName"] : NULL;
-     $FontSize	= isset($Format["FontSize"]) ? $Format["FontSize"] : NULL;
-
-     if ( $R != -1)       {  $this->FontColorR = $R; }
-     if ( $G != -1)       {  $this->FontColorG = $G; }
-     if ( $B != -1)       {  $this->FontColorB = $B; }
-     if ( $Alpha != NULL) {  $this->FontColorA = $Alpha; }
-
-     if ( $FontName != NULL  )
-      $this->FontName = $FontName;
- 
-     if ( $FontSize != NULL  )
-      $this->FontSize = $FontSize;
     }
 
    /* Returns the 1st decimal values (used to correct AA bugs) */
