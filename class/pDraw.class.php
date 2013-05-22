@@ -3184,7 +3184,7 @@
      if ( $Value == VOID ) { return(""); }
 
      if ( $Mode == AXIS_FORMAT_CUSTOM )
-      { if ( function_exists($Format) ) { return(call_user_func($Format,$Value)); } }
+      { if ( is_callable($Format) ) { return(call_user_func($Format,$Value)); } }
 
      if ( $Mode == AXIS_FORMAT_DATE )
       { if ( $Format == NULL ) { $Pattern = "d/m/Y"; } else { $Pattern = $Format; } return(date($Pattern,$Value)); }
