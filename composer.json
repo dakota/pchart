@@ -1,0 +1,14 @@
+{
+    "name": "dakota/pchart",
+    "description": "Fork of the pChart library",
+    "license": "GNU GPLv3",
+    "authors": [
+        {
+            "name": "Walther Lalk",
+            "email": "walther@octoplus.co.za"
+        }
+    ],
+    "require": {
+
+    }
+}
