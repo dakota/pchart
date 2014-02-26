@@ -5104,7 +5104,7 @@
      /* Build the offset data series */
      $OffsetData    = "";
      $OverallOffset = "";
-     $SerieOrder    = "";
+     $SerieOrder    = array();
      foreach($Data["Series"] as $SerieName => $Serie)
       {
        if ( $Serie["isDrawable"] == TRUE && $SerieName != $Data["Abscissa"] )
